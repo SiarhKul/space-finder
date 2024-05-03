@@ -10,3 +10,5 @@ const lambdaStack: LambdaStack = new LambdaStack(app, 'LambdaStack',{
     spaceTable: DBTableStack.spacesTable
 });
 new ApiStack(app, "ApiStack", {helloLambdaIntegration: lambdaStack.helloLambdaIntegration})
+
+// console.log('7777777777777', new Animal('tiger'))

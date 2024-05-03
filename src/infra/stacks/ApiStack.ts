@@ -10,10 +10,9 @@ export class ApiStack extends Stack {
     constructor(scope: Construct, id: string, props: ApiStackProps) {
         super(scope, id, props);
 
-        const api = new RestApi(this, 'SpacesApi')
+        const api:RestApi = new RestApi(this, 'SpacesApi')
         const spaceResource = api.root
             .addResource('space')
             .addMethod("GET", props.helloLambdaIntegration)
-
     }
 }

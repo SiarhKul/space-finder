@@ -6,9 +6,10 @@ import {ApiStack} from "./stacks/ApiStack";
 const app: App = new App()
 
 const DBTableStack:DataStack = new DataStack(app, 'DataStack')
+
 const lambdaStack: LambdaStack = new LambdaStack(app, 'LambdaStack',{
     spaceTable: DBTableStack.spacesTable
 });
+
 new ApiStack(app, "ApiStack", {spacesLambdaIntegration: lambdaStack.spacesLambdaIntegration})
 
-// console.log('7777777777777', new Animal('tiger'))

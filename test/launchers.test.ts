@@ -1,4 +1,4 @@
-import {handler} from "../services/hello";
+import {handler} from "../src/services/hello";
 import {test} from "node:test";
 
 

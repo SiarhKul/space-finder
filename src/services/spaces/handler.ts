@@ -12,15 +12,12 @@ async function handler(event: APIGatewayProxyEvent, context: Context): Promise<A
     try {
         switch (event.httpMethod) {
             case 'GET':
-                const spaces = getSpaces(event, dynamoDBClient);
+                const spaces: Promise<APIGatewayProxyResult>  = getSpaces(event, dynamoDBClient);
                 return  spaces
-                // message = 'Hello from GET!'
-                break;
             case 'POST':
                 const response: Promise<APIGatewayProxyResult> = postSpaces(event, dynamoDBClient)
                 return response
                 // message = 'Hello from POST!'
-                break;
             default:
                 break;
         }
@@ -45,7 +42,7 @@ async function handler(event: APIGatewayProxyEvent, context: Context): Promise<A
 }
 
 export {handler}
-/*
+/*event
 
  {
   resource: '/space',

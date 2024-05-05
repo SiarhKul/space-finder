@@ -2,7 +2,16 @@ import {handler} from "../src/services/spaces/handler";
 import {test} from "node:test";
 
 
-// This test fails because it throws an exception.
+handler({
+   httpMethod: 'PUT',
+   queryStringParameters: {
+      id: '44df43cf-03ff-4ad2-96d9-5b74ffd72ae8'
+   },
+   body: JSON.stringify({
+      location: 'Dublin updated2'
+   })
+} as any, {} as any);
+
 /*handler({
    httpMethod:"GET",
    queryStringParameters: {
@@ -12,13 +21,13 @@ import {test} from "node:test";
 } as any, {} as any)*/
 
 
-handler({
-   httpMethod:"POST",
-   body: JSON.stringify({
-      location:"Berline"
-   })
-
-} as any, {} as any)
+// handler({
+//    httpMethod:"POST",
+//    body: JSON.stringify({
+//       location:"Berline"
+//    })
+//
+// } as any, {} as any)
 
 
 

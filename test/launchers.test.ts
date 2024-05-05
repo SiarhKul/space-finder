@@ -1,8 +1,16 @@
 import {handler} from "../src/services/spaces/handler";
 import {test} from "node:test";
 
+// handler({
+//    httpMethod: 'DELETE',
+//    queryStringParameters: {
+//       id: '74c502c0-0d04-488d-a8c5-ae3b0f77c6e3'
+//    },
+// } as any, {} as any);
 
-handler({
+
+
+/*handler({
    httpMethod: 'PUT',
    queryStringParameters: {
       id: '44df43cf-03ff-4ad2-96d9-5b74ffd72ae8'
@@ -10,7 +18,7 @@ handler({
    body: JSON.stringify({
       location: 'Dublin updated2'
    })
-} as any, {} as any);
+} as any, {} as any);*/
 
 /*handler({
    httpMethod:"GET",
@@ -21,13 +29,13 @@ handler({
 } as any, {} as any)*/
 
 
-// handler({
-//    httpMethod:"POST",
-//    body: JSON.stringify({
-//       location:"Berline"
-//    })
-//
-// } as any, {} as any)
+handler({
+   httpMethod:"POST",
+   body: JSON.stringify({
+      location:"Vilnus"
+   })
+
+} as any, {} as any)
 
 
 

@@ -3,6 +3,7 @@ import {DynamoDBClient} from "@aws-sdk/client-dynamodb";
 import {postSpaces} from "./PostSpaces";
 import {getSpaces} from "./GetSpaces";
 import {updateSpace} from "./UpdateSpace";
+import {deleteSpace} from "./DeleteSpace";
 
 const dynamoDBClient: DynamoDBClient = new DynamoDBClient({})
 
@@ -22,6 +23,8 @@ async function handler(event: APIGatewayProxyEvent, context: Context): Promise<A
             case 'PUT':
                 const update: Promise<APIGatewayProxyResult> = updateSpace(event, dynamoDBClient)
                 return update
+            case "DELETE":
+                await deleteSpace(event, dynamoDBClient)
                 // message = 'Hello from POST!'
             default:
                 break;

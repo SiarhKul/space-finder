@@ -2,6 +2,7 @@ import {DynamoDBClient, PutItemCommand, PutItemCommandOutput} from "@aws-sdk/cli
 import {APIGatewayProxyEvent, APIGatewayProxyResult} from "aws-lambda";
 import {v4} from "uuid";
 import {validateAsSpaceEntry} from "../shared/DataValidator";
+import {marshall} from "@aws-sdk/util-dynamodb";
 
 export async function postSpaces(event: APIGatewayProxyEvent, ddbClient: DynamoDBClient): Promise<APIGatewayProxyResult> {
 
@@ -9,19 +10,23 @@ export async function postSpaces(event: APIGatewayProxyEvent, ddbClient: DynamoD
 
     const item = JSON.parse(event.body ?? '');
     item.id=randomId
-    // validateAsSpaceEntry(item)
+    validateAsSpaceEntry(item)
 
 
     const result: PutItemCommandOutput = await ddbClient.send(new PutItemCommand({
         TableName: process.env.TABLE_NAME,
-        Item: {
-            id: {
-                S: randomId
-            },
-            location: {
-                S: item.location
-            }
-        }
+        Item: marshall(item)
+        // Item: {
+        //     id: {
+        //         S: randomId
+        //     },
+        //     location: {
+        //         S: item.location
+        //     },
+        //     name:{
+        //         S: item.name
+        //     }
+        // }
     }));
     console.log(result);
 

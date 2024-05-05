@@ -32,7 +32,8 @@ import {test} from "node:test";
 handler({
    httpMethod:"POST",
    body: JSON.stringify({
-      location:"Vilnus"
+      location:"Belastok",
+      name: 'V'
    })
 
 } as any, {} as any)

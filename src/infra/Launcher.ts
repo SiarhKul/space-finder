@@ -6,13 +6,15 @@ import {AuthCognitoStack} from "./stacks/AuthCognitoStack";
 
 const app: App = new App()
 
-const DBTableStack:DataStack = new DataStack(app, 'DataStack')
+const DBTableStack: DataStack = new DataStack(app, 'DataStack')
 
-const lambdaStack: LambdaStack = new LambdaStack(app, 'LambdaStack',{
+const lambdaStack: LambdaStack = new LambdaStack(app, 'LambdaStack', {
     spaceTable: DBTableStack.spacesTable
 });
 
-new AuthCognitoStack(app,"AuthCognitoStack")
+const authCognitoStack: AuthCognitoStack = new AuthCognitoStack(app, "AuthCognitoStack");
 
-new ApiStack(app, "ApiStack", {spacesLambdaIntegration: lambdaStack.spacesLambdaIntegration})
+new ApiStack(app, "ApiStack", {
+    userPool: authCognitoStack.userPool,
+    spacesLambdaIntegration: lambdaStack.spacesLambdaIntegration})
 

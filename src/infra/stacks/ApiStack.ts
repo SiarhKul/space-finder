@@ -1,22 +1,43 @@
 import {Stack, StackProps} from "aws-cdk-lib";
 import {Construct} from "constructs";
-import {LambdaIntegration, Resource, RestApi} from "aws-cdk-lib/aws-apigateway";
+import {
+    AuthorizationType,
+    CognitoUserPoolsAuthorizer,
+    LambdaIntegration,
+    MethodOptions,
+    Resource,
+    RestApi
+} from "aws-cdk-lib/aws-apigateway";
+import {IUserPool} from "aws-cdk-lib/aws-cognito";
 
 interface ApiStackProps extends StackProps {
     spacesLambdaIntegration: LambdaIntegration
+    userPool: IUserPool
 }
 
 export class ApiStack extends Stack {
     constructor(scope: Construct, id: string, props: ApiStackProps) {
         super(scope, id, props);
 
-        const api:RestApi = new RestApi(this, 'SpacesApi')
+        const api: RestApi = new RestApi(this, 'SpacesApi')
 
-        const spaceResource:Resource = api.root.addResource('space')
+        const authorizer: CognitoUserPoolsAuthorizer = new CognitoUserPoolsAuthorizer(this, 'SpaceApiAuthorizer', {
+            cognitoUserPools: [props.userPool],
+            identitySource: 'method.request.header.Authorization'
+        })
+        authorizer._attachToApi(api)
 
-        spaceResource.addMethod("GET", props.spacesLambdaIntegration)
-        spaceResource.addMethod("POST", props.spacesLambdaIntegration)
-        spaceResource.addMethod("PUT", props.spacesLambdaIntegration)
-        spaceResource.addMethod("DELETE", props.spacesLambdaIntegration)
+        const optionsWithAuth:MethodOptions={
+            authorizationType: AuthorizationType.COGNITO,
+            authorizer:{
+                authorizerId: authorizer.authorizerId
+            }
+        }
+
+        const spaceResource: Resource = api.root.addResource('space')
+        spaceResource.addMethod("GET", props.spacesLambdaIntegration,optionsWithAuth)
+        spaceResource.addMethod("POST", props.spacesLambdaIntegration,optionsWithAuth)
+        spaceResource.addMethod("PUT", props.spacesLambdaIntegration,optionsWithAuth)
+        spaceResource.addMethod("DELETE", props.spacesLambdaIntegration,optionsWithAuth)
     }
 }

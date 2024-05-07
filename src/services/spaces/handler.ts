@@ -10,60 +10,58 @@ const dynamoDBClient: DynamoDBClient = new DynamoDBClient({})
 
 async function handler(event: APIGatewayProxyEvent, context: Context): Promise<APIGatewayProxyResult> {
 
-    let message: string;
+  let message: string;
 
-
-    try {
-        switch (event.httpMethod) {
-            case 'GET':
-                const spaces: Promise<APIGatewayProxyResult>  = getSpaces(event, dynamoDBClient);
-                return  spaces
-            case 'POST':
-                const response: Promise<APIGatewayProxyResult> = postSpaces(event, dynamoDBClient)
-                return response
-            case 'PUT':
-                const update: Promise<APIGatewayProxyResult> = updateSpace(event, dynamoDBClient)
-                return update
-            case "DELETE":
-                await deleteSpace(event, dynamoDBClient)
-                // message = 'Hello from POST!'
-            default:
-                break;
-        }
-
-    } catch (error) {
-        if(error instanceof MissingFieldError){
-            return {
-                statusCode: 400,
-                body: JSON.stringify(error.message)
-            }
-
-        }
-
-        if(error instanceof JSONError){
-            return {
-                statusCode: 400,
-                body: JSON.stringify(error.message)
-            }
-
-        }
-
-        console.log("=>(handler.ts:26) error", error);
-        const err = error as any
-        return {
-            statusCode: 500,
-            body: JSON.stringify(err.message)
-        }
+  try {
+    switch (event.httpMethod) {
+      case 'GET':
+        const spaces: Promise<APIGatewayProxyResult> = getSpaces(event, dynamoDBClient);
+        return spaces
+      case 'POST':
+        const response: Promise<APIGatewayProxyResult> = postSpaces(event, dynamoDBClient)
+        return response
+      case 'PUT':
+        const update: Promise<APIGatewayProxyResult> = updateSpace(event, dynamoDBClient)
+        return update
+      case "DELETE":
+        const apiDelete = await deleteSpace(event, dynamoDBClient);
+        return apiDelete
+      // message = 'Hello from POST!'
+      default:
+        break;
     }
 
-
-    const response: APIGatewayProxyResult = {
-        statusCode: 200,
-        // @ts-ignore
-        body: JSON.stringify(message)
+  } catch (error) {
+    if (error instanceof MissingFieldError) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify(error.message)
+      }
     }
 
-    return response;
+    if (error instanceof JSONError) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify(error.message)
+      }
+    }
+
+    console.log("=>(handler.ts:26) error", error);
+    const err = error as any
+    return {
+      statusCode: 500,
+      body: JSON.stringify(err.message)
+    }
+  }
+
+
+  const response: APIGatewayProxyResult = {
+    statusCode: 200,
+    // @ts-ignore
+    body: JSON.stringify(message)
+  }
+
+  return response;
 }
 
 export {handler}

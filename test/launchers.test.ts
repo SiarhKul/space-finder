@@ -1,13 +1,16 @@
 import {handler} from "../src/services/spaces/handler";
 import {test} from "node:test";
 
-// handler({
-//    httpMethod: 'DELETE',
-//    queryStringParameters: {
-//       id: '74c502c0-0d04-488d-a8c5-ae3b0f77c6e3'
-//    },
-// } as any, {} as any);
 
+process.env.AWS_REGION = "eu-central-1"
+process.env.AWS_CONGINTO_USE_PASSWORD = '1qaz@WSX';
+
+handler({
+  httpMethod: 'DELETE',
+  queryStringParameters: {
+    id: '8b5c56a8-c731-4324-a0b9-662e1eebb7d0'
+  },
+} as any, {} as any);
 
 
 /*handler({
@@ -29,14 +32,14 @@ import {test} from "node:test";
 } as any, {} as any)*/
 
 
-handler({
+/*handler({
    httpMethod:"POST",
    body: JSON.stringify({
       location:"Belastok",
       name: 'V'
    })
 
-} as any, {} as any)
+} as any, {} as any)*/
 
 
 

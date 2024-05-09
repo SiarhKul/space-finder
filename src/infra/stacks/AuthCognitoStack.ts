@@ -7,7 +7,7 @@ import {
   UserPoolClient
 } from "aws-cdk-lib/aws-cognito";
 import {Construct} from "constructs";
-import {FederatedPrincipal, Role} from "aws-cdk-lib/aws-iam";
+import {Effect, FederatedPrincipal, PolicyStatement, Role} from "aws-cdk-lib/aws-iam";
 
 export class AuthCognitoStack extends Stack {
 
@@ -24,10 +24,10 @@ export class AuthCognitoStack extends Stack {
 
     this.createUserPool();
     this.createUserPoolClient();
-    this.createAdminsGroup()
-    this.createIdentityPool()
-    this.createRoles()
-    this.attachRoles()
+    this.createIdentityPool();
+    this.createRoles();
+    this.attachRoles();
+    this.createAdminsGroup();
   }
 
   private createUserPool(): void {
@@ -61,7 +61,8 @@ export class AuthCognitoStack extends Stack {
   private createAdminsGroup(): void {
     new CfnUserPoolGroup(this, "SpaceAdmins", {
       userPoolId: this.userPool.userPoolId,
-      groupName: 'admins'
+      groupName: 'admins',
+      roleArn: this.adminRole.roleArn
     })
   }
 
@@ -94,6 +95,7 @@ export class AuthCognitoStack extends Stack {
         'sts:AssumeRoleWithWebIdentity'
       )
     });
+
     this.unAuthenticatedRole = new Role(this, 'CognitoDefaultUnauthenticatedRole', {
       assumedBy: new FederatedPrincipal('cognito-identity.amazonaws.com', {
           StringEquals: {
@@ -106,6 +108,7 @@ export class AuthCognitoStack extends Stack {
         'sts:AssumeRoleWithWebIdentity'
       )
     });
+
     this.adminRole = new Role(this, 'CognitoAdminRole', {
       assumedBy: new FederatedPrincipal('cognito-identity.amazonaws.com', {
           StringEquals: {
@@ -118,6 +121,14 @@ export class AuthCognitoStack extends Stack {
         'sts:AssumeRoleWithWebIdentity'
       )
     });
+
+    this.adminRole.addToPolicy(new PolicyStatement({
+      effect: Effect.ALLOW,
+      actions: [
+        's3:ListAllMyBuckets'
+      ],
+      resources: ['*']
+    }))
   }
 
   private attachRoles() {

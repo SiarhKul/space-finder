@@ -5,27 +5,35 @@ import {getSpaces} from "./GetSpaces";
 import {updateSpace} from "./UpdateSpace";
 import {deleteSpace} from "./DeleteSpace";
 import {JSONError, MissingFieldError} from "../shared/DataValidator";
+import {addCORSHeader} from "../shared/Utils";
 
 const dynamoDBClient: DynamoDBClient = new DynamoDBClient({})
 
-async function handler(event: APIGatewayProxyEvent, context: Context): Promise<APIGatewayProxyResult> {
+async function handler(event: APIGatewayProxyEvent, context: Context):Promise<APIGatewayProxyResult> {
 
-  let message: string;
+  let response: APIGatewayProxyResult={
+    statusCode: 500,
+    body: JSON.stringify("Internal Server Error.Resp")
+  }
 
   try {
     switch (event.httpMethod) {
       case 'GET':
-        const spaces: Promise<APIGatewayProxyResult> = getSpaces(event, dynamoDBClient);
-        return spaces
+        const getResponse: APIGatewayProxyResult = await getSpaces(event, dynamoDBClient);
+        response = getResponse
+        break;
       case 'POST':
-        const response: Promise<APIGatewayProxyResult> = postSpaces(event, dynamoDBClient)
-        return response
+        const postResponse: APIGatewayProxyResult = await postSpaces(event, dynamoDBClient)
+        response = postResponse
+        break;
       case 'PUT':
-        const update: Promise<APIGatewayProxyResult> = updateSpace(event, dynamoDBClient)
-        return update
+        const putResponse: APIGatewayProxyResult = await updateSpace(event, dynamoDBClient)
+        response = putResponse
+        break;
       case "DELETE":
-        const apiDelete = await deleteSpace(event, dynamoDBClient);
-        return apiDelete
+        const deleteResponse: APIGatewayProxyResult = await deleteSpace(event, dynamoDBClient);
+        response = deleteResponse;
+        break;
       // message = 'Hello from POST!'
       default:
         break;
@@ -54,14 +62,8 @@ async function handler(event: APIGatewayProxyEvent, context: Context): Promise<A
     }
   }
 
-
-  const response: APIGatewayProxyResult = {
-    statusCode: 200,
-    // @ts-ignore
-    body: JSON.stringify(message)
-  }
-
-  return response;
+  addCORSHeader(response)
+  return response
 }
 
 export {handler}

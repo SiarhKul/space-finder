@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "deploy": "cdk deploy --all --outputs-file outputs.json",
     "debug": "node --inspect-brk --require ts-node/register test/launchers.test.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

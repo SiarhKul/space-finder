@@ -9,11 +9,11 @@
     "SpaceUserPoolClientId": "7mc3b84baub4o43jrgsja8ad4q",
     "SpaceIdentityPoolId": "eu-central-1:f3306170-bdf1-4cdc-9858-bce226559aeb"
   },
-  "UIDeploymentStack": {
-    "SpaceFinderUrl": "d1on8n5fmd93h3.cloudfront.net"
-  },
   "LambdaStack": {
     "ExportsOutputFnGetAttHelloLambda3D9C82D6ArnAF912CE6": "arn:aws:lambda:eu-central-1:653045635854:function:LambdaStack-HelloLambda3D9C82D6-DM7l2oYnpwND"
+  },
+  "UiDeploymentStack": {
+    "SpaceFInderUrl": "d2xw47av2g1aou.cloudfront.net"
   },
   "ApiStack": {
     "SpacesApiEndpoint36C4F3B6": "https://791c80nm53.execute-api.eu-central-1.amazonaws.com/prod/"

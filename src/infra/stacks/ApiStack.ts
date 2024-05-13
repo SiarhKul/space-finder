@@ -2,7 +2,8 @@ import {Stack, StackProps} from "aws-cdk-lib";
 import {Construct} from "constructs";
 import {
   AuthorizationType,
-  CognitoUserPoolsAuthorizer, Cors,
+  CognitoUserPoolsAuthorizer,
+  Cors,
   LambdaIntegration,
   MethodOptions,
   Resource, ResourceOptions,

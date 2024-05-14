@@ -7,13 +7,15 @@ import {UiDeploymentStack} from "./stacks/UiDeploymentStack";
 
 const app: App = new App()
 
-const DBTableStack: DataStack = new DataStack(app, 'DataStack')
+const dataStack: DataStack = new DataStack(app, 'DataStack')
 
 const lambdaStack: LambdaStack = new LambdaStack(app, 'LambdaStack', {
-    spaceTable: DBTableStack.spacesTable
+    spaceTable: dataStack.spacesTable
 });
 
-const authCognitoStack: AuthCognitoStack = new AuthCognitoStack(app, "AuthCognitoStack");
+const authCognitoStack: AuthCognitoStack = new AuthCognitoStack(
+    app, "AuthCognitoStack", {photosBucket: dataStack.photosBucket}
+);
 
 new ApiStack(app, "ApiStack", {
     userPool: authCognitoStack.userPool,

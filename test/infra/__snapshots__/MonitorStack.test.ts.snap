@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Initial test suite Monitor stack snapshot 1`] = `
+{
+  "AlarmTopicD01E77F9": {
+    "Properties": {
+      "DisplayName": "AlarmTopic",
+      "TopicName": "AlarmTopic",
+    },
+    "Type": "AWS::SNS::Topic",
+  },
+}
+`;

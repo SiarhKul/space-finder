@@ -17,7 +17,6 @@ export class MonitorStack extends Stack {
       runtime: Runtime.NODEJS_18_X,
       handler: 'handler',
       entry: (join(__dirname, '..', '..', 'services', 'monitor', 'handler.ts'))
-
     })
 
     const alarmTopic = new Topic(this, 'AlarmTopic', {

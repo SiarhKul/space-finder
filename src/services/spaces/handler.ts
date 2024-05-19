@@ -54,7 +54,6 @@ async function handler(event: APIGatewayProxyEvent, context: Context):Promise<AP
       }
     }
 
-    console.log("=>(handler.ts:26) error", error);
     const err = error as any
     return {
       statusCode: 500,

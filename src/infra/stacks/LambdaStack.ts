@@ -21,7 +21,7 @@ export class LambdaStack extends Stack {
     const spacesLambda: NodejsFunction = new NodejsFunction(this, 'HelloLambda', {
       runtime: Runtime.NODEJS_18_X,
       handler: 'handler',
-      entry: join(__dirname, '..', '..', 'services', 'spaces', 'handler.ts'),
+      entry: join(__dirname, '..', '..', 'services', 'services', 'handler.ts'),
       environment: {
         TABLE_NAME: props.spaceTable.tableName
       },

@@ -1,4 +1,4 @@
-import {handler} from "../../src/services/monitor/handler";
+import {handler} from "../../../src/services/monitor/handler";
 
 
 describe('GIVEN Monitor lambda', () => {
@@ -42,6 +42,4 @@ describe('GIVEN Monitor lambda', () => {
     expect(fetchSpy).not.toHaveBeenCalled()
 
   })
-
-
 });
